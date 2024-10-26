@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Source Code Checkout') {
             steps {
-                git url: "${GIT_REPO}", credentialsId: "${GIT_CREDENTIALS_ID}"
+                git url: "https://github.com/r4jibooqis/Book-Store.git", credentialsId: "${GIT_CREDENTIALS_ID}"
             }
         }
 
