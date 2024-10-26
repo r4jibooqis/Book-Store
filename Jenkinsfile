@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'book_store:latest'
         DOCKER_CONTAINER_NAME = 'book_store_local'
         LOCAL_PORT = '8080' // Local port to access the application
-        MAVEN_HOME = 'C:/Program Files/Maven/apache-maven-3.9.9' // Change to your Maven installation path
+        MAVEN_HOME = 'C:\\Program Files\\Maven\\apache-maven-3.9.9' // Change to your Maven installation path
         PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Update the PATH variable
     }
 
