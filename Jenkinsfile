@@ -70,6 +70,6 @@ def sendEmailNotification(String subject, String body) {
     emailext(
         subject: subject,
         body: body,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        to: 'raji.makkah@gmail.com'
     )
 }
