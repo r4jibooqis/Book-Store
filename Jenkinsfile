@@ -25,7 +25,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def testResults = bat(script: 'mvn test', returnStatus: true)
+                    def testResults = bat(script: "C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd test", returnStatus: true)
                     if (testResults != 0) {
                         error("JUnit tests failed.")
                     }
@@ -35,7 +35,7 @@ pipeline {
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                bat "C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd package"
             }
         }
 
