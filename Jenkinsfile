@@ -16,14 +16,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
                 script {
-                    def testResults = bat(script: 'mvn test', returnStatus: true)
+                    def testResults = sh(script: 'mvn test', returnStatus: true)
                     if (testResults != 0) {
                         error("JUnit tests failed.")
                     }
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                sh 'mvn package'
             }
         }
 
@@ -44,9 +44,9 @@ pipeline {
             steps {
                 script {
                     // Stop and remove any existing container for the app
-                    bat "docker rm -f ${DOCKER_CONTAINER_NAME} || exit 0"
+                    sh "docker rm -f ${DOCKER_CONTAINER_NAME} || true"
                     // Run the Docker container locally
-                    bat "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
+                    sh "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
                 }
             }
         }
