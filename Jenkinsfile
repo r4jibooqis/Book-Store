@@ -5,8 +5,6 @@ pipeline {
         DOCKER_IMAGE = 'book_store:latest'
         DOCKER_CONTAINER_NAME = 'book_store_local'
         LOCAL_PORT = '8080' // Local port to access the application
-        MAVEN_HOME = 'C:\\Program Files\\Maven\\apache-maven-3.9.9' // Change to your Maven installation path
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Update the PATH variable
     }
 
     stages {
@@ -18,14 +16,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat "C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd clean package"
+                bat "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" clean package"
             }
         }
 
         stage('Test') {
             steps {
                 script {
-                    def testResults = bat(script: "C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd test", returnStatus: true)
+                    def testResults = bat(script: "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" test", returnStatus: true)
                     if (testResults != 0) {
                         error("JUnit tests failed.")
                     }
@@ -35,7 +33,7 @@ pipeline {
 
         stage('Package') {
             steps {
-                bat "C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd package"
+                bat "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" package"
             }
         }
 
@@ -46,9 +44,9 @@ pipeline {
             steps {
                 script {
                     // Stop and remove any existing container for the app
-                    bat "docker rm -f ${DOCKER_CONTAINER_NAME} || exit 0"
+                    sh "docker rm -f ${DOCKER_CONTAINER_NAME} || true"
                     // Run the Docker container locally
-                    bat "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
+                    sh "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
                 }
             }
         }
