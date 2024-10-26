@@ -16,14 +16,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" clean package"
+                bat 'mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
                 script {
-                    def testResults = bat(script: "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" test", returnStatus: true)
+                    def testResults = bat(script: 'mvn test', returnStatus: true)
                     if (testResults != 0) {
                         error("JUnit tests failed.")
                     }
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Package') {
             steps {
-                bat "\"C:\\Program Files\\Maven\\apache-maven-3.9.9\\bin\\mvn.cmd\" package"
+                bat 'mvn package'
             }
         }
 
@@ -44,9 +44,9 @@ pipeline {
             steps {
                 script {
                     // Stop and remove any existing container for the app
-                    sh "docker rm -f ${DOCKER_CONTAINER_NAME} || true"
+                    bat "docker rm -f ${DOCKER_CONTAINER_NAME} || exit 0"
                     // Run the Docker container locally
-                    sh "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
+                    bat "docker run -d --name ${DOCKER_CONTAINER_NAME} -p ${LOCAL_PORT}:8080 ${DOCKER_IMAGE}"
                 }
             }
         }
