@@ -55,12 +55,12 @@ pipeline {
     post {
         success {
             script {
-                sendNotification("Local deployment successful!", "SUCCESS")
+                sendEmailNotification("Local deployment successful!", "SUCCESS")
             }
         }
         failure {
             script {
-                sendNotification("Local deployment failed!", "FAILURE")
+                sendEmailNotification("Local deployment failed!", "FAILURE")
             }
         }
     }
